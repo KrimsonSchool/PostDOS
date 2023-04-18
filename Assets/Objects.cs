@@ -7,9 +7,9 @@ public class Objects : MonoBehaviour
     public Color[] Color;
     public Vector2Int[] Pos;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        FindObjectOfType<Render>().OldCol = Color;
     }
 
     // Update is called once per frame

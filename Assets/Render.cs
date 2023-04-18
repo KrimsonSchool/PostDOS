@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class Renderer : MonoBehaviour
+public class Render : MonoBehaviour
 {
     public Texture2D texture;
     public float timer;
@@ -14,6 +14,8 @@ public class Renderer : MonoBehaviour
     Color[] Col;
     public Color[] OldCol;
     Vector2Int[] Pos;
+
+    int selected = 999;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,8 +29,6 @@ public class Renderer : MonoBehaviour
 
         Col = GetComponent<Objects>().Color;
         Pos = GetComponent<Objects>().Pos;
-
-        OldCol = Col;
     }
     // Update is called once per frame
     void Update()
@@ -68,22 +68,29 @@ public class Renderer : MonoBehaviour
             {
                 if (Vector2.Distance(Pos[i], PlayerPos) <=5)
                 {
+                    selected = i;
                     Pos[i] = PlayerPos;
-                    Col[i] = Color.grey;
                 }
             }
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            print("now");
+            if(selected != 999)
+            {
+                Col[selected] = Color.grey;
+            }
             CursorColor = Color.red;
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            for (int i = 0; i < Pos.Length; i++)
+            if (selected != 999)
             {
-                Col[i] = OldCol[i];
+                Col[selected] = OldCol[selected];
             }
+            selected = 999;
             CursorColor = Color.black;
+            print("UP");
         }
 
     }
