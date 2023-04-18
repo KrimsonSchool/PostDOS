@@ -64,8 +64,6 @@ public class Renderer : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space))
         {
-            CursorColor = Color.red;
-
             for (int i = 0; i < Pos.Length; i++)
             {
                 if (Vector2.Distance(Pos[i], PlayerPos) <=5)
@@ -74,6 +72,10 @@ public class Renderer : MonoBehaviour
                     Col[i] = Color.grey;
                 }
             }
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            CursorColor = Color.red;
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
