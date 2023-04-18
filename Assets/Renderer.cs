@@ -12,6 +12,7 @@ public class Renderer : MonoBehaviour
     public Color CursorColor;
 
     Color[] Col;
+    public Color[] OldCol;
     Vector2Int[] Pos;
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,8 @@ public class Renderer : MonoBehaviour
 
         Col = GetComponent<Objects>().Color;
         Pos = GetComponent<Objects>().Pos;
+
+        OldCol = Col;
     }
     // Update is called once per frame
     void Update()
@@ -62,20 +65,23 @@ public class Renderer : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             CursorColor = Color.red;
-            DrawCursor();
 
             for (int i = 0; i < Pos.Length; i++)
             {
                 if (Vector2.Distance(Pos[i], PlayerPos) <=5)
                 {
                     Pos[i] = PlayerPos;
+                    Col[i] = Color.grey;
                 }
             }
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
+            for (int i = 0; i < Pos.Length; i++)
+            {
+                Col[i] = OldCol[i];
+            }
             CursorColor = Color.black;
-            DrawCursor();
         }
 
     }
