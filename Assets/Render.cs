@@ -11,11 +11,10 @@ public class Render : MonoBehaviour
     public Vector2Int PlayerPos;
     public Color CursorColor;
 
-    Color[] Col;
-    public Color[] OldCol;
+    Object[] Object;
     Vector2Int[] Pos;
 
-    int selected = 999;
+    int p;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,8 +26,9 @@ public class Render : MonoBehaviour
         CursorColor = Color.black;
         PlayerPos = new Vector2Int(64, 64);
 
-        Col = GetComponent<Objects>().Color;
         Pos = GetComponent<Objects>().Pos;
+
+        Object = GetComponent<Objects>().Object;
     }
     // Update is called once per frame
     void Update()
@@ -62,7 +62,6 @@ public class Render : MonoBehaviour
             {
                 if (Vector2.Distance(Pos[i], PlayerPos) <=5)
                 {
-                    selected = i;
                     Pos[i] = PlayerPos;
                 }
             }
@@ -70,21 +69,12 @@ public class Render : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             print("now");
-            if(selected != 999)
-            {
-                Col[selected] = Color.grey;
-            }
             CursorColor = Color.red;
 
             DrawCursor();
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            if (selected != 999)
-            {
-                Col[selected] = OldCol[selected];
-            }
-            selected = 999;
             CursorColor = Color.black;
             print("UP");
 
@@ -124,17 +114,19 @@ public class Render : MonoBehaviour
     {
         for (int i = 0; i < Pos.Length; i++)
         {
-            for (int y = Pos[i].y-7; y < Pos[i].y + 8; y++)
+        p=0;
+            for (int y = Pos[i].y-8; y < Pos[i].y + 8; y++)
             {
-                for (int x = Pos[i].x-3; x < Pos[i].x + 4; x++)
+                for (int x = Pos[i].x-4; x < Pos[i].x + 4; x++)
                 {
-                    texture.SetPixel(x, y, Col[i]);
+                    print(p);
+                    texture.SetPixel(x, y, Object[i].Color[p]);
+                    if (p < 127)
+                    {
+                        p++;
+                    }
                 }
             }
-            texture.SetPixel(Pos[i].x+1, Pos[i].y, Color.red);
-            texture.SetPixel(Pos[i].x-1, Pos[i].y, Color.red);
-            texture.SetPixel(Pos[i].x, Pos[i].y+1, Color.red);
-            texture.SetPixel(Pos[i].x, Pos[i].y-1, Color.red);
         }
         
         texture.Apply();
