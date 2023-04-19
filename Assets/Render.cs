@@ -114,16 +114,16 @@ public class Render : MonoBehaviour
     {
         for (int i = 0; i < Pos.Length; i++)
         {
-        p=0;
+        p=127;
             for (int y = Pos[i].y-8; y < Pos[i].y + 8; y++)
             {
                 for (int x = Pos[i].x-4; x < Pos[i].x + 4; x++)
                 {
                     print(p);
                     texture.SetPixel(x, y, Object[i].Color[p]);
-                    if (p < 127)
+                    if (p > 0)
                     {
-                        p++;
+                        p--;
                     }
                 }
             }
