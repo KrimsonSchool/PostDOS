@@ -35,12 +35,6 @@ public class Render : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        //PlayerPos += new Vector2Int(Mathf.RoundToInt(Input.GetAxis("Horizontal")),Mathf.RoundToInt(Input.GetAxis("Vertical")));
-
-        //if(Input.GetAxis("Horizontal")!= 0 || Input.GetAxis("Vertical") != 0)
-        //{
-        //}
-
         if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
             PlayerPos += new Vector2Int(0, 1);
@@ -81,6 +75,8 @@ public class Render : MonoBehaviour
                 Col[selected] = Color.grey;
             }
             CursorColor = Color.red;
+
+            DrawCursor();
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
@@ -91,6 +87,8 @@ public class Render : MonoBehaviour
             selected = 999;
             CursorColor = Color.black;
             print("UP");
+
+            DrawCursor();
         }
 
     }
@@ -138,5 +136,7 @@ public class Render : MonoBehaviour
             texture.SetPixel(Pos[i].x, Pos[i].y+1, Color.red);
             texture.SetPixel(Pos[i].x, Pos[i].y-1, Color.red);
         }
+        
+        texture.Apply();
     }
 }

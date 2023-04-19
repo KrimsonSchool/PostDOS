@@ -9,7 +9,7 @@ public class Objects : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        FindObjectOfType<Render>().OldCol = Color;
+
     }
 
     // Update is called once per frame
