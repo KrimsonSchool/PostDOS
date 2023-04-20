@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Object : MonoBehaviour
+public class Windows : MonoBehaviour
 {
-    public Color[] Color;
-    public string Location;
+    public Window[] Window;
     // Start is called before the first frame update
     void Start()
     {

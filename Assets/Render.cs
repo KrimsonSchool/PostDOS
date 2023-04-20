@@ -14,21 +14,29 @@ public class Render : MonoBehaviour
     Object[] Object;
     Vector2Int[] Pos;
 
+    Vector2Int Resolution = new Vector2Int(288, 162);
+
     int p;
+
+    bool WindowOpen;
+
+    int selected=999;
     // Start is called before the first frame update
     void Start()
     {
-        texture = new Texture2D(192, 108);
+        texture = new Texture2D(Resolution.x, Resolution.y);
         texture.name = "Screen";
         texture.filterMode = FilterMode.Point;
         FindObjectOfType<RenderReplacement>().replacement = texture;
 
         CursorColor = Color.black;
-        PlayerPos = new Vector2Int(64, 64);
+        PlayerPos = new Vector2Int(140, 240);
 
         Pos = GetComponent<Objects>().Pos;
 
         Object = GetComponent<Objects>().Object;
+
+        DrawWindow(0);
     }
     // Update is called once per frame
     void Update()
@@ -60,6 +68,7 @@ public class Render : MonoBehaviour
         {
             for (int i = 0; i < Pos.Length; i++)
             {
+                print("Disctance = " + (Vector2.Distance(Pos[i], PlayerPos)) + "For " + i);
                 if (Vector2.Distance(Pos[i], PlayerPos) <=5)
                 {
                     Pos[i] = PlayerPos;
@@ -68,15 +77,31 @@ public class Render : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            print("now");
+            if (WindowOpen && selected != 999)
+            {
+                WindowOpen = false;
+                selected = 999;
+            }
+            //print("now");
             CursorColor = Color.red;
 
             DrawCursor();
+            for (int i = 0; i < Pos.Length; i++)
+            {
+                if (Vector2.Distance(Pos[i], PlayerPos) <= 5)
+                {
+                    if (!WindowOpen)
+                    {
+                        WindowOpen = true;
+                        selected = i;
+                    }
+                }
+            }
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
             CursorColor = Color.black;
-            print("UP");
+            //print("UP");
 
             DrawCursor();
         }
@@ -88,11 +113,17 @@ public class Render : MonoBehaviour
 
         DrawAllObjects();
 
+        if (WindowOpen && selected != 999)
+        {
+            DrawWindow(selected);
+        }
+
         texture.SetPixel(PlayerPos.x, PlayerPos.y, CursorColor);
         texture.SetPixel(PlayerPos.x + 1, PlayerPos.y, CursorColor);
         texture.SetPixel(PlayerPos.x, PlayerPos.y + 1, CursorColor);
         texture.SetPixel(PlayerPos.x, PlayerPos.y - 1, CursorColor);
         texture.SetPixel(PlayerPos.x - 1, PlayerPos.y, CursorColor);
+
 
         texture.Apply();
     }
@@ -109,17 +140,16 @@ public class Render : MonoBehaviour
         texture.Apply();
     }
 
-
     public void DrawAllObjects()
     {
         for (int i = 0; i < Pos.Length; i++)
         {
-        p=63;
+            p=63;
             for (int y = Pos[i].y-4; y < Pos[i].y + 4; y++)
             {
                 for (int x = Pos[i].x-4; x < Pos[i].x + 4; x++)
                 {
-                    print(p);
+                    //print(p);
                     texture.SetPixel(x, y, Object[i].Color[p]);
                     if (p > 0)
                     {
@@ -129,6 +159,19 @@ public class Render : MonoBehaviour
             }
         }
         
+        texture.Apply();
+    }
+
+    public void DrawWindow(int no)
+    {
+        for (int y = Resolution.y / 2 - (Resolution.y / 2) + 16; y < Resolution.y / 2 + (Resolution.y / 2) - 16; y++)
+        {
+            for (int x = Resolution.x / 2 - (Resolution.x / 2) + 16; x < Resolution.x / 2 + (Resolution.x / 2) - 16; x++)
+            {
+                texture.SetPixel(x, y, GetComponent<Windows>().Window[no].Color);
+            }
+        }
+
         texture.Apply();
     }
 }
