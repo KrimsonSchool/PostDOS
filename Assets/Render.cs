@@ -111,7 +111,7 @@ public class Render : MonoBehaviour
     {
         Refresh();
 
-        DrawAllObjects();
+        DrawAllObjects(Object, Pos);
 
         if (WindowOpen && selected != 999)
         {
@@ -140,17 +140,17 @@ public class Render : MonoBehaviour
         texture.Apply();
     }
 
-    public void DrawAllObjects()
+    public void DrawAllObjects(Object[] Objects, Vector2Int[] Pos)
     {
-        for (int i = 0; i < Pos.Length; i++)
+        for (int i = 0; i < Objects.Length; i++)
         {
-            p=63;
-            for (int y = Pos[i].y-4; y < Pos[i].y + 4; y++)
+            p = 63;
+            for (int y = Pos[i].y - 4; y < Pos[i].y + 4; y++)
             {
-                for (int x = Pos[i].x-4; x < Pos[i].x + 4; x++)
+                for (int x = Pos[i].x - 4; x < Pos[i].x + 4; x++)
                 {
                     //print(p);
-                    texture.SetPixel(x, y, Object[i].Color[p]);
+                    texture.SetPixel(x, y, Objects[i].Color[p]);
                     if (p > 0)
                     {
                         p--;
@@ -171,6 +171,9 @@ public class Render : MonoBehaviour
                 texture.SetPixel(x, y, GetComponent<Windows>().Window[no].Color);
             }
         }
+
+        DrawAllObjects(GetComponent<Windows>().Window[no].Objects, GetComponent<Windows>().Window[no].Pos);
+        
 
         texture.Apply();
     }
