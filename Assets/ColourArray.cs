@@ -2,14 +2,11 @@ using UnityEngine;
 using System.Collections;
 
 [System.Serializable]
-public class ColourArray
-{
+public class ColourArray  {
 
     [System.Serializable]
-    public struct rowData
-    {
+    public struct rowData{
         public Color[] row;
     }
-
-    public rowData[] rows = new rowData[2];
+    public rowData[] rows = new rowData[8];
 }

@@ -157,6 +157,21 @@ public class Render : MonoBehaviour
                     }
                 }
             }
+
+
+
+            for (int y = Pos[i].y - 4; y < Pos[i].y + 4; y++)
+            {
+                for (int x = Pos[i].x - 4; x < Pos[i].x + 4; x++)
+                {
+                    //print(p);
+                    //texture.SetPixel(x, y, Objects[i].Colour);
+                    if (p > 0)
+                    {
+                        p--;
+                    }
+                }
+            }
         }
         
         texture.Apply();
